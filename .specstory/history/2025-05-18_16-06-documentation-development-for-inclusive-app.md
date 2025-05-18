@@ -3321,6 +3321,18 @@ The dual licensing model you've established (AGPL for open-source and commercial
 
 ---
 
+_**User**_
+
+add my name and leave those so i have a better claim to them 
+
+---
+
+_**Assistant**_
+
+
+
+---
+
 
 
 ---

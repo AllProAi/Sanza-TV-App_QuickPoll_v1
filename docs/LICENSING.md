@@ -117,6 +117,4 @@ AllPro.Enterprises
 Email: licensing@allpro.enterprises  
 Website: [https://allpro.enterprises/licensing](https://allpro.enterprises/licensing)
 
----
-
-© 2025 AllPro.Enterprises Novus | Nexum Labs. All rights reserved. 
+---© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved.
