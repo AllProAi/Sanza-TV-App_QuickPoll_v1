@@ -32,7 +32,7 @@ The core QuickPoll platform is released under the [GNU Affero General Public Lic
 
 ## Commercial License
 
-For commercial and proprietary use cases, a separate commercial license is available from AllPro.Enterprises. This license:
+For commercial and proprietary use cases, a separate commercial license is available from Daniel Hill / AllPro.Enterprises. This license:
 
 - Allows integration with proprietary systems without AGPL requirements
 - Enables OEM and white-label distribution
@@ -69,12 +69,12 @@ All contributors to the project must sign our Contributor License Agreement. Thi
 
 - Allows the project to maintain its dual licensing model
 - Ensures contributions can be included in both open source and commercial versions
-- Preserves the rights of AllPro.Enterprises to monetize commercial versions
+- Preserves the rights of Daniel Hill / AllPro.Enterprises to monetize commercial versions
 - Gives contributors proper attribution for their work
 
 ## Trademark Usage
 
-The "QuickPoll" name and associated logos are trademarks of AllPro.Enterprises. Usage of these trademarks is subject to our [Trademark Policy](TRADEMARK_POLICY.md).
+The "QuickPoll" name and associated logos are trademarks of Daniel Hill / AllPro.Enterprises. Usage of these trademarks is subject to our [Trademark Policy](TRADEMARK_POLICY.md).
 
 ## Patents
 
@@ -113,8 +113,10 @@ Certain specific files in the repository may be licensed under different terms. 
 For questions regarding licensing or to inquire about commercial licenses, please contact:
 
 **Licensing Team**  
-AllPro.Enterprises  
+Daniel Hill / AllPro.Enterprises  
 Email: licensing@allpro.enterprises  
 Website: [https://allpro.enterprises/licensing](https://allpro.enterprises/licensing)
 
----© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved.
+---
+
+© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved.

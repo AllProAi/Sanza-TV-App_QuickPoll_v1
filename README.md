@@ -83,6 +83,12 @@ streamvibe/
 - Visual focus indicators
 - Shortcut keys for quick access
 
+### QuickPoll Interactive System
+- Real-time audience polling during content playback
+- Instant feedback and results visualization
+- Analytics dashboard for content providers
+- AI-powered insights from audience responses
+
 ## 📱 Remote Control Navigation
 
 The application is fully navigable using the following remote controls:
@@ -102,6 +108,41 @@ The application is deployed on Vercel and can be accessed at:
 - [Architecture Design Document (ADD)](docs/ADD.md)
 - [Deployment Guide](docs/DEPLOYMENT.md)
 - [Task List](TASK-LIST.md)
+- [QuickPoll Documentation](docs/README.md)
+
+## 🔌 API Endpoints Reference
+
+QuickPoll provides a comprehensive set of API endpoints:
+
+### Poll Management API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/polls` | GET | List polls with filtering options |
+| `/api/polls` | POST | Create a new poll |
+| `/api/polls/:id` | GET | Get poll details |
+| `/api/polls/:id` | PUT | Update poll |
+| `/api/polls/:id` | DELETE | Delete poll |
+| `/api/polls/:id/results` | GET | Get poll results |
+
+### Client Interactive API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |
+| `/api/interactive/polls/:id/vote` | POST | Submit a vote |
+| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |
+
+### Analytics API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/analytics/polls/:id` | GET | Get analytics for a specific poll |
+| `/api/analytics/content/:contentId` | GET | Get analytics for specific content |
+| `/api/analytics/dashboard` | GET | Get aggregated analytics for dashboard |
+| `/api/analytics/export` | POST | Generate and download analytics report |
+
+For detailed documentation, see [QuickPoll Technical Documentation](docs/TECHNICAL_IMPLEMENTATION.md).
 
 ## 🔧 Recent TypeScript Fixes
 
@@ -137,4 +178,8 @@ Development tasks are organized in the [TASK-LIST.md](TASK-LIST.md) file and ind
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under a dual licensing model. See [LICENSING.md](docs/LICENSING.md) for details.
+
+---
+
+© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved. 

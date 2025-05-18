@@ -69,6 +69,40 @@ QuickPoll is built on a robust, scalable architecture designed for the unique re
 - **Customization Options** - Branded polls that match content styling and tone
 - **Seamless Integration** - Built specifically for the Senza TV ecosystem
 
+## API Endpoints
+
+QuickPoll provides a comprehensive set of API endpoints for developers. Here's a quick reference guide:
+
+### Poll Management API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/polls` | GET | List polls with filtering options |
+| `/api/polls` | POST | Create a new poll |
+| `/api/polls/:id` | GET | Get poll details |
+| `/api/polls/:id` | PUT | Update poll |
+| `/api/polls/:id` | DELETE | Delete poll |
+| `/api/polls/:id/results` | GET | Get poll results |
+
+### Client Interactive API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |
+| `/api/interactive/polls/:id/vote` | POST | Submit a vote |
+| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |
+
+### Analytics API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/analytics/polls/:id` | GET | Get analytics for a specific poll |
+| `/api/analytics/content/:contentId` | GET | Get analytics for specific content |
+| `/api/analytics/dashboard` | GET | Get aggregated analytics for dashboard |
+| `/api/analytics/export` | POST | Generate and download analytics report |
+
+For detailed API documentation including request/response formats, authentication requirements, and example usage, please see the [API Reference](API_REFERENCE.md).
+
 ## Screenshots
 
 ### Interactive Poll Overlay
@@ -121,4 +155,4 @@ This documentation is regularly updated to reflect the latest features and impro
 
 ---
 
-© 2025 AllPro.Enterprises Novus | Nexum Labs. All rights reserved. 
+© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved. 

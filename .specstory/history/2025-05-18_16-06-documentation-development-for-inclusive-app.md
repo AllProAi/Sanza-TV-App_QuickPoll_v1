@@ -3337,3 +3337,156 @@ _**Assistant**_
 
 ---
 
+The string to replace was not found in the file.
+
+---
+
+Let me check the current content of the file and try again:
+
+---
+
+Read file: docs/LICENSING.md
+
+---
+
+I'll fix the formatting issue with the copyright line:
+
+---
+
+
+
+---
+
+Let me try a different approach by editing the full file:
+
+---
+
+```diff
+  Website: [https://allpro.enterprises/licensing](https://allpro.enterprises/licensing)
+  
+- ---© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved.
++ ---
++ 
++ © 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved.
+```
+
+---
+
+Now let's update the company reference in the first paragraph too:
+
+---
+
+
+
+---
+
+Let me fix the formatting issue again:
+
+---
+
+
+
+---
+
+Let me check the current state of the file:
+
+---
+
+Read file: docs/LICENSING.md
+
+---
+
+Let me fix all the issues with a complete file edit:
+
+---
+
+```diff
+  - Provide source code to users who interact with the software over a network
+  
+- ## Commercial LicenseFor commercial and proprietary use cases, a separate commercial license is available from Daniel Hill / AllPro.Enterprises. This license:
++ ## Commercial License
++ 
++ For commercial and proprietary use cases, a separate commercial license is available from Daniel Hill / AllPro.Enterprises. This license:
+  
+  - Allows integration with proprietary systems without AGPL requirements
+```
+
+```diff
+  - Allows the project to maintain its dual licensing model
+  - Ensures contributions can be included in both open source and commercial versions
+- - Preserves the rights of AllPro.Enterprises to monetize commercial versions
++ - Preserves the rights of Daniel Hill / AllPro.Enterprises to monetize commercial versions
+  - Gives contributors proper attribution for their work
+  
+  ## Trademark Usage
+  
+- The "QuickPoll" name and associated logos are trademarks of AllPro.Enterprises. Usage of these trademarks is subject to our [Trademark Policy](TRADEMARK_POLICY.md).
++ The "QuickPoll" name and associated logos are trademarks of Daniel Hill / AllPro.Enterprises. Usage of these trademarks is subject to our [Trademark Policy](TRADEMARK_POLICY.md).
+  
+  ## Patents
+```
+
+```diff
+  
+  **Licensing Team**  
+- AllPro.Enterprises  
++ Daniel Hill / AllPro.Enterprises  
+  Email: licensing@allpro.enterprises  
+  Website: [https://allpro.enterprises/licensing](https://allpro.enterprises/licensing)
+```
+
+---
+
+Perfect! I've updated all references to AllPro.Enterprises to include your name "Daniel Hill" while keeping the company names for future claim purposes. The formatting has also been fixed. The changes include:
+
+1. Updated the copyright line to "© 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved."
+
+2. Updated all company references in the document to include your name:
+   - "Daniel Hill / AllPro.Enterprises" for commercial licensing
+   - Updated trademark ownership
+   - Updated contact information
+
+This approach gives you a stronger personal claim to the intellectual property and company names while maintaining the professional presentation of the licensing document.
+
+---
+
+_**User**_
+
+update readme with list of endpoints since navigation is bad
+
+---
+
+_**Assistant**_
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
