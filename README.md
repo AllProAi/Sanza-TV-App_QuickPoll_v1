@@ -109,6 +109,7 @@ The application is deployed on Vercel and can be accessed at:
 - [Deployment Guide](docs/DEPLOYMENT.md)
 - [Task List](TASK-LIST.md)
 - [QuickPoll Documentation](docs/README.md)
+- [Navigation Map](docs/NAVIGATION_MAP.md)
 
 ## 🔌 API Endpoints Reference
 

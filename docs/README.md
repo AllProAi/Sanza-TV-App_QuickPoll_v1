@@ -28,6 +28,7 @@ The system features a comprehensive analytics dashboard that provides content cr
 ### For Developers
 
 - [API Reference](API_REFERENCE.md) - Complete API documentation
+- [Navigation Map](NAVIGATION_MAP.md) - Comprehensive page routes and API endpoints
 - [Contributing Guidelines](CONTRIBUTING.md) - How to contribute to the QuickPoll project
 - [Development Setup](DEVELOPMENT_SETUP.md) - Setting up your development environment
 

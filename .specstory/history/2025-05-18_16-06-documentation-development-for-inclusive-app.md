@@ -3462,9 +3462,436 @@ _**Assistant**_
 
 ---
 
+I'll update the README with a list of endpoints to improve navigation. Let me first check the existing README files:
+
+---
+
+Read file: docs/README.md
+
+---
+
+Let me check the technical architecture document to find the endpoints:
+
+---
+
+Read file: docs/TECHNICAL_ARCHITECTURE.md
+
+---
+
+Now let's update the README in the docs directory with an endpoints section:
+
+---
+
+```diff
+  - **Customization Options** - Branded polls that match content styling and tone
+  - **Seamless Integration** - Built specifically for the Senza TV ecosystem
++ 
++ ## API Endpoints
++ 
++ QuickPoll provides a comprehensive set of API endpoints for developers. Here's a quick reference guide:
++ 
++ ### Poll Management API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/polls` | GET | List polls with filtering options |
++ | `/api/polls` | POST | Create a new poll |
++ | `/api/polls/:id` | GET | Get poll details |
++ | `/api/polls/:id` | PUT | Update poll |
++ | `/api/polls/:id` | DELETE | Delete poll |
++ | `/api/polls/:id/results` | GET | Get poll results |
++ 
++ ### Client Interactive API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |
++ | `/api/interactive/polls/:id/vote` | POST | Submit a vote |
++ | `/api/interactive/user/:userId/votes` | GET | Get user's voting history |
++ 
++ ### Analytics API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/analytics/polls/:id` | GET | Get analytics for a specific poll |
++ | `/api/analytics/content/:contentId` | GET | Get analytics for specific content |
++ | `/api/analytics/dashboard` | GET | Get aggregated analytics for dashboard |
++ | `/api/analytics/export` | POST | Generate and download analytics report |
++ 
++ For detailed API documentation including request/response formats, authentication requirements, and example usage, please see the [API Reference](API_REFERENCE.md).
+  
+  ## Screenshots
+```
+
+```diff
+  ---
+  
+- © 2025 AllPro.Enterprises Novus | Nexum Labs. All rights reserved. 
++ © 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved. 
+```
+
+---
+
+Now let's also update the main README.md in the root directory by adding a quick reference to the documentation and endpoints:
+
+---
+
+Read file: README.md
+
+---
+
+```diff
+  - Visual focus indicators
+  - Shortcut keys for quick access
++ 
++ ### QuickPoll Interactive System
++ - Real-time audience polling during content playback
++ - Instant feedback and results visualization
++ - Analytics dashboard for content providers
++ - AI-powered insights from audience responses
+  
+  ## 📱 Remote Control Navigation
+```
+
+```diff
+  - [Deployment Guide](docs/DEPLOYMENT.md)
+  - [Task List](TASK-LIST.md)
++ - [QuickPoll Documentation](docs/README.md)
++ 
++ ## 🔌 API Endpoints Reference
++ 
++ QuickPoll provides a comprehensive set of API endpoints:
++ 
++ ### Poll Management API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/polls` | GET | List polls with filtering options |
++ | `/api/polls` | POST | Create a new poll |
++ | `/api/polls/:id` | GET | Get poll details |
++ | `/api/polls/:id` | PUT | Update poll |
++ | `/api/polls/:id` | DELETE | Delete poll |
++ | `/api/polls/:id/results` | GET | Get poll results |
++ 
++ ### Client Interactive API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |
++ | `/api/interactive/polls/:id/vote` | POST | Submit a vote |
++ | `/api/interactive/user/:userId/votes` | GET | Get user's voting history |
++ 
++ ### Analytics API
++ 
++ | Endpoint | Method | Description |
++ |----------|--------|-------------|
++ | `/api/analytics/polls/:id` | GET | Get analytics for a specific poll |
++ | `/api/analytics/content/:contentId` | GET | Get analytics for specific content |
++ | `/api/analytics/dashboard` | GET | Get aggregated analytics for dashboard |
++ | `/api/analytics/export` | POST | Generate and download analytics report |
++ 
++ For detailed documentation, see [QuickPoll Technical Documentation](docs/TECHNICAL_IMPLEMENTATION.md).
+  
+  ## 🔧 Recent TypeScript Fixes
+```
+
+```diff
+  ## 📄 License
+  
+- This project is licensed under the MIT License - see the LICENSE file for details. 
++ This project is licensed under a dual licensing model. See [LICENSING.md](docs/LICENSING.md) for details.
++ 
++ ---
++ 
++ © 2025 Daniel Hill / AllPro.Enterprises Novus | Nexum Labs CR. All rights reserved. 
+```
+
+---
+
+Great! I've updated both README files to improve navigation:
+
+1. In the main README.md (root directory):
+   - Added a QuickPoll Interactive System section highlighting key features
+   - Added a comprehensive API Endpoints Reference section with tables for all endpoints
+   - Added a link to the QuickPoll documentation
+   - Updated the licensing information to reference the dual licensing model
+   - Added your copyright notice
+
+2. In the docs/README.md file:
+   - Added a dedicated API Endpoints section with tables organizing all endpoints by category
+   - Added a reference to the API Reference document for more detailed information
+   - Updated the copyright notice to include your name
+
+These changes should make it much easier for users to navigate the documentation and find the API endpoints they need, especially since you mentioned navigation was problematic. The tables provide a quick visual reference that's easy to scan.
+
+---
+
+_**User**_
+
+verify they are all real endpoints 
+
+---
+
+_**Assistant**_
+
 
 
 ---
+
+I need to verify if these endpoints are actually implemented in the codebase rather than just being documented. Let me check for API implementation files:
+
+---
+
+<details>
+            <summary>Searched codebase "API implementation routes endpoints controller" • **25** results</summary>
+        
+| File | Lines |
+|------|-------|
+| `docs/README.md` | L59-101 |
+| `StreamVibe/src/services/PerformanceOptimization.ts` | L243-268 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L350-404 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L285-350 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L81-131 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L48-101 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L33-43 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L274-332 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L169-224 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L15-33 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L131-169 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L38-48 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L43-81 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L151-181 |
+| `StreamVibe/src/services/PerformanceOptimization.ts` | L460-484 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L197-275 |
+| `StreamVibe/src/tests/mocks/MockData.js` | L104-171 |
+| `README.md` | L117-173 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L181-205 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L22-38 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L224-274 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L482-490 |
+| `StreamVibe/src/services/api/ResponseTransformer.ts` | L37-45 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L332-366 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L1-15 |
+
+</details>
+
+---
+
+Let me check for any specific API implementation files:
+
+---
+
+<details>
+            <summary>Searched codebase "poll api endpoints implementation" • **25** results</summary>
+        
+| File | Lines |
+|------|-------|
+| `docs/TECHNICAL_ARCHITECTURE.md` | L285-350 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L350-404 |
+| `docs/README.md` | L59-101 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L197-275 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L275-381 |
+| `StreamVibe/src/services/InteractiveService.ts` | L1-16 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L1-39 |
+| `docs/QUICKPOLL_DOCUMENTATION.md` | L195-250 |
+| `StreamVibe/src/components/interactive/PollOverlay.tsx` | L1-15 |
+| `StreamVibe/src/services/InteractiveService.ts` | L381-389 |
+| `README.md` | L117-173 |
+| `StreamVibe/src/services/InteractiveService.ts` | L185-228 |
+| `StreamVibe/src/services/InteractiveService.ts` | L81-84 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L97-161 |
+| `StreamVibe/src/services/InteractiveService.ts` | L389-400 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L61-97 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L226-285 |
+| `StreamVibe/src/services/InteractiveService.ts` | L448-471 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L1-40 |
+| `docs/TECHNICAL_IMPLEMENTATION.md` | L381-445 |
+| `StreamVibe/src/components/interactive/PollOverlay.tsx` | L95-154 |
+| `docs/TECHNICAL_ARCHITECTURE.md` | L143-159 |
+| `StreamVibe/src/components/interactive/PollOverlay.tsx` | L154-213 |
+| `docs/README.md` | L101-158 |
+| `docs/QUICKPOLL_DOCUMENTATION.md` | L1-38 |
+
+</details>
+
+---
+
+Let me look for specific API code implementation:
+
+---
+
+<details>
+            <summary>Searched codebase "API implementation poll controller" • **25** results</summary>
+        
+| File | Lines |
+|------|-------|
+| `StreamVibe/src/services/InteractiveService.ts` | L1-16 |
+| `StreamVibe/src/services/InteractiveService.ts` | L381-389 |
+| `StreamVibe/src/services/InteractiveService.ts` | L185-228 |
+| `StreamVibe/src/services/InteractiveService.ts` | L389-400 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L274-332 |
+| `StreamVibe/src/services/InteractiveService.ts` | L448-471 |
+| `StreamVibe/src/services/InteractiveService.ts` | L81-84 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L15-33 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L1-15 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L445-469 |
+| `StreamVibe/src/services/PerformanceOptimization.ts` | L243-268 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L81-131 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L389-445 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L33-43 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L169-224 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L43-81 |
+| `StreamVibe/src/services/InteractiveService.ts` | L322-381 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L332-366 |
+| `StreamVibe/src/services/api/CacheService.ts` | L65-89 |
+| `StreamVibe/src/services/api/ErrorHandler.ts` | L38-48 |
+| `StreamVibe/src/services/PerformanceOptimization.ts` | L460-484 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L131-169 |
+| `StreamVibe/src/services/InteractiveService.ts` | L118-159 |
+| `StreamVibe/src/services/PerformanceOptimization.ts` | L78-150 |
+| `StreamVibe/src/services/api/ContentAPI.ts` | L469-482 |
+
+</details>
+
+---
+
+Let's search specifically for API implementation in the PollAPI or InteractiveAPI classes:
+
+---
+
+<details>
+            <summary>Grep search for "PollAPI|InteractiveAPI|/api/polls|/api/interactive" • **6** files</summary>
+        
+| File | Line | Match |
+|------|------|-------|
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L120 | `| `/api/polls` | GET | List polls with filtering options |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L121 | `| `/api/polls` | POST | Create a new poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L122 | `| `/api/polls/:id` | GET | Get poll details |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L123 | `| `/api/polls/:id` | PUT | Update poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L124 | `| `/api/polls/:id` | DELETE | Delete poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L125 | `| `/api/polls/:id/results` | GET | Get poll results |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L131 | `| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L132 | `| `/api/interactive/polls/:id/vote` | POST | Submit a vote |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/README.md` | L133 | `| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L338 | `| `/api/polls` | GET | List polls with filtering options |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L339 | `| `/api/polls` | POST | Create a new poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L340 | `| `/api/polls/:id` | GET | Get poll details |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L341 | `| `/api/polls/:id` | PUT | Update poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L342 | `| `/api/polls/:id` | DELETE | Delete poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L343 | `| `/api/polls/:id/results` | GET | Get poll results |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L349 | `| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L350 | `| `/api/interactive/polls/:id/vote` | POST | Submit a vote |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_ARCHITECTURE.md` | L351 | `| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L252 | `POST /api/polls` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L253 | `GET /api/polls` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L254 | `GET /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L255 | `PUT /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L256 | `DELETE /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L262 | `GET /api/polls/:id/results` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L263 | `GET /api/polls/:id/results/live` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/TECHNICAL_IMPLEMENTATION.md` | L264 | `GET /api/polls/:id/analytics` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L79 | `| `/api/polls` | GET | List polls with filtering options |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L80 | `| `/api/polls` | POST | Create a new poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L81 | `| `/api/polls/:id` | GET | Get poll details |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L82 | `| `/api/polls/:id` | PUT | Update poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L83 | `| `/api/polls/:id` | DELETE | Delete poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L84 | `| `/api/polls/:id/results` | GET | Get poll results |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L90 | `| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L91 | `| `/api/interactive/polls/:id/vote` | POST | Submit a vote |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L92 | `| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L870 | `+ POST /api/polls` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L871 | `+ GET /api/polls` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L872 | `+ GET /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L873 | `+ PUT /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L874 | `+ DELETE /api/polls/:id` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L880 | `+ GET /api/polls/:id/results` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L881 | `+ GET /api/polls/:id/results/live` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L882 | `+ GET /api/polls/:id/analytics` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2614 | `+ | `/api/polls` | GET | List polls with filtering options |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2615 | `+ | `/api/polls` | POST | Create a new poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2616 | `+ | `/api/polls/:id` | GET | Get poll details |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2617 | `+ | `/api/polls/:id` | PUT | Update poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2618 | `+ | `/api/polls/:id` | DELETE | Delete poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2619 | `+ | `/api/polls/:id/results` | GET | Get poll results |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2625 | `+ | `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2626 | `+ | `/api/interactive/polls/:id/vote` | POST | Submit a vote |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/.specstory/history/2025-05-18_16-06-documentation-development-for-inclusive-app.md` | L2627 | `+ | `/api/interactive/user/:userId/votes` | GET | Get user's voting history |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L79 | `| `/api/polls` | GET | List polls with filtering options |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L80 | `| `/api/polls` | POST | Create a new poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L81 | `| `/api/polls/:id` | GET | Get poll details |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L82 | `| `/api/polls/:id` | PUT | Update poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L83 | `| `/api/polls/:id` | DELETE | Delete poll |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L84 | `| `/api/polls/:id/results` | GET | Get poll results |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L90 | `| `/api/interactive/content/:contentId/polls` | GET | Get polls for specific content |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L91 | `| `/api/interactive/polls/:id/vote` | POST | Submit a vote |` |
+| `file:///d%3A/Sanza-TV-App_QuickPoll_v1/docs/README.md` | L92 | `| `/api/interactive/user/:userId/votes` | GET | Get user's voting history |` |
+
+</details>
+
+---
+
+Let's look for any server-side implementation:
+
+---
+
+<details>
+            <summary>Listed directory StreamVibe/src/services/api • **6** results</summary>
+        
+| Name |
+|-------|
+| 📄 `ResponseTransformer.ts` |
+| 📄 `CacheService.ts` |
+| 📄 `index.d.ts` |
+| 📄 `ErrorHandler.ts` |
+| 📄 `ContentAPI.ts` |
+| 📄 `mockData.ts` |
+
+</details>
+
+---
+
+Let me check if there are any specific API files for polls:
+
+---
+
+<details>
+            <summary>Grep search for "poll api server|interactive api server" • **0** files</summary>
+        
+No results found
+</details>
+
+---
+
+After thorough investigation, I can confirm that the API endpoints listed in the documentation are not fully implemented in the current codebase. Here's what I found:
+
+1. The API endpoints are well-documented in several places:
+   - Technical Architecture document
+   - README files
+   - Technical Implementation guide
+
+2. However, there's no actual server-side implementation of these endpoints in the codebase:
+   - There's no PollAPI.ts or similar file in the services/api directory
+   - There's no server-side code with route handlers for the documented endpoints
+
+3. The only implementation is client-side mock functionality:
+   - InteractiveService.ts has methods like submitPollVote() but these only handle in-memory data
+   - There are mock data structures for polls but no actual API communication
+
+4. The ContentAPI.ts file shows how APIs should be structured (with caching, error handling, etc.) but doesn't implement any poll-specific endpoints
+
+This suggests that the API documentation represents a specification or plan for what will be implemented, rather than documentation of existing functionality. The endpoints are well-defined but not yet built - they're part of the design documentation for the QuickPoll feature.
+
+Would you like me to create an implementation plan for these endpoints, or would you prefer to update the documentation to clarify that these are planned endpoints rather than existing ones?
+
+---
+
+_**User**_
+
+page endpoints for navigation
+
+---
+
+_**Assistant**_
 
 
 
