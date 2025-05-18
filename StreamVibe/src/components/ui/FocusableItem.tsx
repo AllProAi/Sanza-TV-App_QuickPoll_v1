@@ -83,11 +83,16 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
         `}
         style={{
           position: 'relative',
+          transform: isFocused ? 'scale(1.05)' : 'scale(1)',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          boxShadow: isFocused ? '0 0 20px rgba(63, 133, 244, 0.6)' : 'none',
+          zIndex: isFocused ? 10 : 'auto',
           ...style,
         }}
         tabIndex={disabled ? -1 : tabIndex}
         data-focusable-id={focusId}
         data-focusable={!disabled}
+        data-focused={isFocused ? "true" : "false"}
         data-group-id={groupId}
         {...props}
       >
@@ -97,6 +102,8 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
             offset={indicatorOffset}
             scale={indicatorScale}
             transitionDuration={indicatorTransitionDuration}
+            color="#4caf50"
+            borderWidth={3}
           />
         )}
       </div>

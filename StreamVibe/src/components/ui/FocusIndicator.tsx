@@ -16,29 +16,29 @@ interface FocusIndicatorProps {
 }
 
 const FocusIndicator: React.FC<FocusIndicatorProps> = ({
-  offset = { top: -4, right: -4, bottom: -4, left: -4 },
-  scale = 1,
+  offset = { top: -6, right: -6, bottom: -6, left: -6 },
+  scale = 1.05,
   transitionDuration = 150,
-  color = '#3f85f4',
-  borderRadius = 4,
-  borderWidth = 2,
+  color = '#4caf50',
+  borderRadius = 6,
+  borderWidth = 3,
 }) => {
   return (
     <div
       className="focus-indicator"
       style={{
         position: 'absolute',
-        top: offset.top ?? -4,
-        right: offset.right ?? -4,
-        bottom: offset.bottom ?? -4,
-        left: offset.left ?? -4,
+        top: offset.top ?? -6,
+        right: offset.right ?? -6,
+        bottom: offset.bottom ?? -6,
+        left: offset.left ?? -6,
         border: `${borderWidth}px solid ${color}`,
         borderRadius: `${borderRadius}px`,
-        boxShadow: `0 0 8px ${color}`,
+        boxShadow: `0 0 10px ${color}, 0 0 15px ${color}`,
         transform: `scale(${scale})`,
         transition: `all ${transitionDuration}ms ease-out, opacity 100ms ease-in`,
         pointerEvents: 'none',
-        zIndex: 10,
+        zIndex: 100,
       }}
     />
   );

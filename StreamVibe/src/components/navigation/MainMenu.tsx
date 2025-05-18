@@ -235,6 +235,7 @@ const FocusableMenuItem: React.FC<FocusableMenuItemProps> = ({
         style={{animationDelay: `${0.1 * index}s`}}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        data-href={!hasSubMenu ? item.path : undefined}
       >
         {item.label}
         
@@ -292,6 +293,7 @@ const FocusableSubmenuItem: React.FC<FocusableSubmenuItemProps> = ({
         focused={false}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        data-href={subItem.path}
       >
         {subItem.label}
       </SubMenuItem>
@@ -339,7 +341,13 @@ const MainMenu: React.FC<MainMenuProps> = ({ onSearch }) => {
   
   // Handle menu item click
   const handleMenuItemClick = (path: string) => {
+    // Use both methods to ensure navigation works
     navigate(path);
+    
+    // Add a small delay to ensure the navigation completes
+    setTimeout(() => {
+      window.location.href = path;
+    }, 50);
   };
   
   // Handle sub menu visibility

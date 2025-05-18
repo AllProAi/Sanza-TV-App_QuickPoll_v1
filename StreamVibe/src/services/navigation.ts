@@ -83,8 +83,18 @@ export function useNavigationWithHistory() {
 
   // Enhanced navigation with history tracking
   const navigateTo = useCallback((path: string, state?: Record<string, unknown>) => {
+    // First attempt to use React Router navigate
     navigate(path, { state });
-  }, [navigate]);
+    
+    // If path is the same as the current location, we need to force navigation
+    if (location.pathname === path) {
+      // Force a location refresh after a short delay
+      setTimeout(() => {
+        // Use window.location for hard navigation as a fallback
+        window.location.href = path;
+      }, 50);
+    }
+  }, [navigate, location.pathname]);
 
   // Navigate back
   const goBack = useCallback(() => {

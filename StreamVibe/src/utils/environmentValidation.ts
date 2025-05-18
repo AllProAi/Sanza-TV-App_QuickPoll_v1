@@ -5,13 +5,15 @@
 export type EnvVariable = {
   key: string;
   required: boolean;
+  requiredInProduction?: boolean; // Some variables only required in production
   defaultValue?: string;
   validator?: (value: string) => boolean;
 };
 
 const ENV_VARIABLES: EnvVariable[] = [
-  { key: 'VITE_OPENAI_API_KEY', required: true },
-  { key: 'VITE_SENZA_API_KEY', required: true },
+  // Mark these keys as only required in production, but use a fake value in development
+  { key: 'VITE_OPENAI_API_KEY', required: false, requiredInProduction: true, defaultValue: 'sk-development-fake-key' },
+  { key: 'VITE_SENZA_API_KEY', required: false, requiredInProduction: true, defaultValue: 'senza-development-fake-key' },
   { key: 'VITE_OPENAI_MODEL', required: false, defaultValue: 'gpt-4-turbo' },
   { key: 'VITE_API_BASE_URL', required: false, defaultValue: 'https://api.streamvibe.example.com' },
   { key: 'VITE_ENABLE_AI_FEATURES', required: false, defaultValue: 'true' },
@@ -36,12 +38,16 @@ export const validateEnvironment = (): {
   missingVariables: string[];
 } => {
   const missingVariables: string[] = [];
+  const isProd = import.meta.env.PROD === true;
 
   // Check each variable
   ENV_VARIABLES.forEach((envVar) => {
     const value = import.meta.env[envVar.key];
     
-    if (envVar.required && (!value || value === '')) {
+    // Only require variables marked as requiredInProduction in production mode
+    const isRequired = envVar.required || (isProd && envVar.requiredInProduction);
+    
+    if (isRequired && (!value || value === '')) {
       missingVariables.push(envVar.key);
     }
     
@@ -78,15 +84,21 @@ export const getEnvVariable = (key: string): string => {
  */
 export const initEnvironment = (): void => {
   const { isValid, missingVariables } = validateEnvironment();
+  const isDev = import.meta.env.DEV === true;
 
   if (!isValid) {
-    console.error(
-      'Missing required environment variables:',
-      missingVariables.join(', ')
-    );
-    
-    if (import.meta.env.PROD) {
-      // Only show warnings in production, allow development to continue
+    if (isDev) {
+      // In development, just log a warning but don't treat as an error
+      console.warn(
+        'Development mode: Using default values for missing environment variables:',
+        missingVariables.join(', ')
+      );
+    } else {
+      // In production, log an error
+      console.error(
+        'Missing required environment variables:',
+        missingVariables.join(', ')
+      );
       console.warn('Application may not function correctly without required environment variables');
     }
   }

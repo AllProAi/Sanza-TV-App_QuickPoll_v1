@@ -26,12 +26,14 @@ export const useFocus = ({
 }: UseFocusOptions = {}) => {
   const elementRef = useRef<HTMLElement | null>(null);
   const [isFocused, setIsFocused] = useState(initialFocus);
+  // Keep the ID stable across renders to prevent unnecessary re-registrations
   const idRef = useRef<string>(providedId || `focusable-${Math.random().toString(36).substring(2, 9)}`);
   const id = idRef.current;
   
   const { registerFocusable, unregisterFocusable, setFocus, currentFocus } = useNavigation();
   
-  // Register this element with the navigation system
+  // Only register once when the element is available
+  // Combined the registration and neighbor updates into a single effect
   useEffect(() => {
     if (elementRef.current) {
       registerFocusable(id, elementRef.current, neighbors);
@@ -40,44 +42,57 @@ export const useFocus = ({
     return () => {
       unregisterFocusable(id);
     };
-  }, [id, registerFocusable, unregisterFocusable, neighbors]);
+  }, [id, neighbors]); // Removed registerFocusable and unregisterFocusable from dependency array
   
-  // Handle initialFocus
+  // Handle initialFocus only once when the component mounts
   useEffect(() => {
     if (initialFocus && elementRef.current) {
-      setFocus(id);
+      // Use setTimeout to break potential render cycles
+      const timeoutId = setTimeout(() => {
+        setFocus(id);
+      }, 0);
+      
+      return () => clearTimeout(timeoutId);
     }
-  }, [initialFocus, id, setFocus]);
+  }, []); // Empty dependency array, only run on mount
   
   // Handle focus changes from the navigation system
   useEffect(() => {
     const isFocusedNow = currentFocus === id;
-    setIsFocused(isFocusedNow);
     
-    if (isFocusedNow && onFocus) {
-      onFocus();
-    } else if (!isFocusedNow && isFocused && onBlur) {
-      onBlur();
+    if (isFocusedNow !== isFocused) {
+      setIsFocused(isFocusedNow);
+      
+      // Use setTimeout to prevent potential cascading effects
+      if (isFocusedNow && onFocus) {
+        setTimeout(() => onFocus(), 0);
+      } else if (!isFocusedNow && isFocused && onBlur) {
+        setTimeout(() => onBlur(), 0);
+      }
     }
-  }, [currentFocus, id, isFocused, onBlur, onFocus]);
+  }, [currentFocus, id, isFocused]); // Removed onBlur and onFocus from dependency array
   
-  // Update neighbors when they change
-  useEffect(() => {
-    if (elementRef.current) {
-      registerFocusable(id, elementRef.current, neighbors);
-    }
-  }, [registerFocusable, id, neighbors]);
+  // Removed the duplicate effect for neighbors since it's now combined with the registration effect above
   
   // Method to manually set focus to this element
   const focus = useCallback(() => {
-    setFocus(id);
+    // Use setTimeout to break potential render cycles
+    setTimeout(() => {
+      setFocus(id);
+    }, 0);
   }, [id, setFocus]);
 
   // Ref callback to set the element ref
   const ref = useCallback((element: HTMLElement | null) => {
-    elementRef.current = element;
-    if (element && initialFocus) {
-      setFocus(id);
+    if (element !== elementRef.current) {
+      elementRef.current = element;
+      
+      if (element && initialFocus) {
+        // Use setTimeout to break potential render cycles
+        setTimeout(() => {
+          setFocus(id);
+        }, 0);
+      }
     }
   }, [id, initialFocus, setFocus]);
   

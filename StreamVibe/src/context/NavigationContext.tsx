@@ -68,7 +68,7 @@ interface NavigationProviderProps {
   maxHistoryLength?: number;
 }
 
-export const NavigationProvider: React.FC<NavigationProviderProps> = ({ 
+const NavigationProvider: React.FC<NavigationProviderProps> = ({ 
   children, 
   initialFocus,
   maxHistoryLength = 50,
@@ -160,26 +160,47 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
   
   const setFocus = useCallback((id: string) => {
     if (focusableElements[id]) {
-      focusableElements[id].element.focus();
-      setCurrentFocus(id);
-      
-      // Add to history
-      setHistory(prev => {
-        const newHistory = prev.filter(item => item.route !== currentPath);
-        return [{ route: currentPath, focusId: id }, ...newHistory].slice(0, maxHistoryLength);
-      });
-      
-      // If element is part of a group, update group's current focus
-      if (focusableElements[id].groupId) {
-        const groupId = focusableElements[id].groupId;
-        setGroups(prev => ({
-          ...prev,
-          [groupId!]: {
-            ...prev[groupId!],
-            currentFocus: id,
+      // Use setTimeout to break potential render cycles
+      setTimeout(() => {
+        try {
+          // Focus the element, ensuring it's visible
+          focusableElements[id].element.focus();
+          
+          // Ensure the element is visible in the viewport
+          focusableElements[id].element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+          });
+          
+          // Update the current focus state
+          setCurrentFocus(id);
+          
+          // For debugging - log focus changes
+          console.log(`Focus set to: ${id}`);
+          
+          // Add to history
+          setHistory(prev => {
+            const newHistory = prev.filter(item => item.route !== currentPath);
+            return [{ route: currentPath, focusId: id }, ...newHistory].slice(0, maxHistoryLength);
+          });
+          
+          // If element is part of a group, update group's current focus
+          if (focusableElements[id].groupId) {
+            const groupId = focusableElements[id].groupId;
+            setGroups(prev => ({
+              ...prev,
+              [groupId!]: {
+                ...prev[groupId!],
+                currentFocus: id,
+              }
+            }));
           }
-        }));
-      }
+        } catch (error) {
+          console.error(`Error setting focus to ${id}:`, error);
+        }
+      }, 0);
+    } else {
+      console.warn(`Attempted to focus element ${id} but it's not registered`);
     }
   }, [focusableElements, currentPath, maxHistoryLength]);
 
@@ -193,7 +214,7 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
     }
     
     // First, check explicit neighbor
-    const nextFocusId = focusableElements[currentFocus].neighbors[direction];
+    const nextFocusId = focusableElements[currentFocus]?.neighbors?.[direction];
     
     if (nextFocusId && focusableElements[nextFocusId]) {
       setFocus(nextFocusId);
@@ -270,11 +291,21 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
   const navigateToLastFocus = useCallback((route: string): boolean => {
     const lastFocus = history.find(item => item.route === route);
     if (lastFocus && focusableElements[lastFocus.focusId]) {
-      setFocus(lastFocus.focusId);
+      // Use a local reference to avoid closure issues
+      const elementId = lastFocus.focusId;
+      
+      // Use setTimeout to break potential render cycles
+      setTimeout(() => {
+        // Use a fresh reference to focusableElements inside the callback
+        if (focusableElements[elementId]) {
+          setFocus(elementId);
+        }
+      }, 0);
+      
       return true;
     }
     return false;
-  }, [history, focusableElements, setFocus]);
+  }, [history, setFocus]); // Removed focusableElements from dependency array
 
   // Group management
   const registerGroup = useCallback((groupId: string, elementIds: string[]) => {
@@ -356,25 +387,86 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
   // Handle keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Log key events for debugging
+      console.log('Key pressed:', e.key);
+      
       switch (e.key) {
         case 'ArrowUp':
+          console.log('Moving focus UP');
           moveFocus('up');
           e.preventDefault();
           break;
         case 'ArrowDown':
+          console.log('Moving focus DOWN');
           moveFocus('down');
           e.preventDefault();
           break;
         case 'ArrowLeft':
+          console.log('Moving focus LEFT');
           moveFocus('left');
           e.preventDefault();
           break;
         case 'ArrowRight':
+          console.log('Moving focus RIGHT');
           moveFocus('right');
           e.preventDefault();
           break;
-        case 'Backspace':
+        case 'Enter': // OK button on remote control
+          console.log('Enter/OK pressed on:', currentFocus);
+          if (currentFocus && focusableElements[currentFocus]) {
+            const element = focusableElements[currentFocus].element;
+            // Use setTimeout to break the potential infinite update loop
+            setTimeout(() => {
+              // First check if it's a link or button
+              if (element instanceof HTMLAnchorElement) {
+                console.log('Clicking anchor element');
+                if (element.href) {
+                  // Force navigation to the link destination
+                  window.location.href = element.href;
+                } else {
+                  element.click();
+                }
+              } else if (element instanceof HTMLButtonElement || 
+                         element.hasAttribute('role') && element.getAttribute('role') === 'button') {
+                // If it's a button or has role="button", simulate a click event
+                console.log('Clicking button element');
+                element.click();
+                
+                // If the button has data-href attribute, use it for navigation
+                if (element.dataset.href) {
+                  console.log('Navigating to:', element.dataset.href);
+                  setTimeout(() => {
+                    window.location.href = element.dataset.href!;
+                  }, 50);
+                }
+              } else {
+                // For other elements, just simulate a click
+                console.log('Clicking generic element');
+                element.click();
+                
+                // Also check for data-href on other elements
+                if (element.dataset.href) {
+                  console.log('Navigating to:', element.dataset.href);
+                  setTimeout(() => {
+                    window.location.href = element.dataset.href!;
+                  }, 50);
+                }
+              }
+            }, 0);
+          } else {
+            console.warn('No element focused when Enter was pressed');
+          }
+          e.preventDefault();
+          break;
+        case 'Escape': // Back button on remote control
+          console.log('Escape/Back pressed');
           goBack();
+          e.preventDefault();
+          break;
+        case 'Home': // Home button on remote control
+          console.log('Home pressed');
+          // Navigate to home/main screen
+          window.location.href = '/';
           e.preventDefault();
           break;
       }
@@ -382,7 +474,22 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [moveFocus, goBack]);
+  }, [moveFocus, goBack, currentFocus, focusableElements]); // Added currentFocus and focusableElements to dependency array
+
+  // Set initial focus on mount if not already set
+  React.useEffect(() => {
+    // If initialFocus is provided, use it
+    if (initialFocus && focusableElements[initialFocus]) {
+      console.log("Setting initial focus to:", initialFocus);
+      setFocus(initialFocus);
+    } 
+    // Otherwise, find the first focusable element
+    else if (!currentFocus && Object.keys(focusableElements).length > 0) {
+      const firstFocusable = Object.keys(focusableElements)[0];
+      console.log("Setting default focus to first element:", firstFocusable);
+      setFocus(firstFocusable);
+    }
+  }, [initialFocus, focusableElements, setFocus]);
 
   return (
     <NavigationContext.Provider 
@@ -408,6 +515,6 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
   );
 };
 
+export { NavigationProvider };
 export const useNavigation = () => useContext(NavigationContext);
-
 export default NavigationContext; 

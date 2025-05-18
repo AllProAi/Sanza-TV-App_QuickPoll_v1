@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import type { KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import { useNavigation } from '../../hooks/useNavigation';
 
@@ -15,15 +16,15 @@ interface FocusableButtonProps {
   };
 }
 
-const StyledButton = styled.button<{ isFocused: boolean }>`
+const StyledButton = styled.button<{ $isFocused: boolean }>`
   padding: 16px 24px;
-  background-color: ${props => props.isFocused ? 'var(--primary-color)' : 'var(--surface-color)'};
+  background-color: ${props => props.$isFocused ? 'var(--primary-color)' : 'var(--surface-color)'};
   color: var(--on-surface-color);
   border-radius: 4px;
   font-size: 18px;
   transition: all 0.2s ease;
-  box-shadow: ${props => props.isFocused ? '0 0 10px rgba(187, 134, 252, 0.5)' : 'none'};
-  transform: ${props => props.isFocused ? 'scale(1.05)' : 'scale(1)'};
+  box-shadow: ${props => props.$isFocused ? '0 0 10px rgba(187, 134, 252, 0.5)' : 'none'};
+  transform: ${props => props.$isFocused ? 'scale(1.05)' : 'scale(1)'};
   
   &:hover, &:focus {
     background-color: var(--primary-color);
@@ -52,13 +53,22 @@ const FocusableButton: React.FC<FocusableButtonProps> = ({
     };
   }, [id, registerFocusable, unregisterFocusable, neighbors]);
 
+  // Handle keydown events directly on the button
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter' && onClick) {
+      onClick();
+      e.preventDefault();
+    }
+  };
+
   return (
     <StyledButton
       ref={buttonRef}
       id={id}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       className={className}
-      isFocused={isFocused}
+      $isFocused={isFocused}
       tabIndex={0}
     >
       {children}

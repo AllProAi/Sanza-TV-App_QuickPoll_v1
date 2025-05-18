@@ -87,11 +87,11 @@ const CarouselIndicators = styled.div`
   gap: 8px;
 `;
 
-const Indicator = styled.div<{ active: boolean }>`
+const Indicator = styled.div<{ $active: boolean }>`
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.5)'};
+  background-color: ${props => props.$active ? 'white' : 'rgba(255, 255, 255, 0.5)'};
   cursor: pointer;
   transition: all 0.3s ease;
 `;
@@ -219,8 +219,9 @@ const FeaturedContent: React.FC<FeaturedContentProps> = ({
           {featuredItems.map((_, index) => (
             <Indicator 
               key={index} 
-              active={index === currentIndex} 
+              $active={index === currentIndex} 
               onClick={() => handleIndicatorClick(index)}
+              aria-current={index === currentIndex ? 'true' : 'false'}
             />
           ))}
         </CarouselIndicators>

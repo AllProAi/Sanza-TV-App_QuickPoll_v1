@@ -63,6 +63,7 @@ type SenzaEventCallback = (event: SenzaEvent) => void;
 class SenzaSDKService {
   private isInitialized: boolean = false;
   private eventSubscribers: SenzaEventCallback[] = [];
+  private isDevMode: boolean = process.env.NODE_ENV === 'development';
   
   /**
    * Initialize the Senza SDK
@@ -74,15 +75,34 @@ class SenzaSDKService {
     }
     
     try {
-      // Initialize the SDK
-      await init();
+      // Initialize the SDK with error handling for missing window objects
+      await init().catch(err => {
+        // In development mode, don't throw errors for missing window objects
+        if (this.isDevMode && (
+          err.message?.includes('window.diagnostics is undefined') || 
+          err.message?.includes('window.cefQuery is undefined')
+        )) {
+          console.warn('Running in development mode without Senza platform support. Some features may not work.');
+        } else {
+          throw err;
+        }
+      });
+      
       this.isInitialized = true;
       
       // Set up event listeners
       this.setupEventListeners();
       
-      // Signal that UI is ready
-      uiReady();
+      // Signal that UI is ready, with error handling
+      try {
+        uiReady();
+      } catch (uiError) {
+        if (this.isDevMode) {
+          console.warn('uiReady call failed, likely due to missing window.cefQuery in development mode.');
+        } else {
+          throw uiError;
+        }
+      }
       
       // Emit foreground event
       this.emit({
@@ -107,6 +127,8 @@ class SenzaSDKService {
     if (typeof document !== 'undefined') {
       // Listen for key events
       document.addEventListener('keydown', (e: KeyboardEvent) => {
+        console.log('[Senza SDK] Key event:', e.key);
+        
         this.emit({
           type: SenzaEventType.KEY_EVENT,
           data: {
@@ -123,6 +145,8 @@ class SenzaSDKService {
       // Listen for app state changes via DOM events
       document.addEventListener('hs/uistatechange', ((e: Event) => {
         const customEvent = e as CustomEvent;
+        console.log('[Senza SDK] UI state change:', customEvent.detail);
+        
         if (customEvent.detail === 'foreground') {
           this.emit({ type: SenzaEventType.APP_FOREGROUND });
         } else if (customEvent.detail === 'background') {

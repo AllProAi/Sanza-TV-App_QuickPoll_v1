@@ -79,18 +79,18 @@ const CarouselIndicators = styled.div`
   gap: 6px;
 `;
 
-const Indicator = styled.button<{ active: boolean }>`
-  width: ${props => props.active ? '12px' : '8px'};
+const Indicator = styled.button<{ $active: boolean }>`
+  width: ${props => props.$active ? '12px' : '8px'};
   height: 8px;
   border-radius: 4px;
-  background-color: ${props => props.active ? 'var(--primary-color)' : 'var(--surface-color)'};
+  background-color: ${props => props.$active ? 'var(--primary-color)' : 'var(--surface-color)'};
   border: none;
   padding: 0;
   transition: all 0.3s ease;
   cursor: pointer;
   
   &:hover {
-    background-color: ${props => props.active ? 'var(--primary-color)' : 'var(--surface-hover-color)'};
+    background-color: ${props => props.$active ? 'var(--primary-color)' : 'var(--surface-hover-color)'};
   }
 `;
 
@@ -245,9 +245,10 @@ const Carousel: React.FC<CarouselProps> = ({
           {Array.from({ length: totalSlides }).map((_, index) => (
             <Indicator
               key={index}
-              active={index === currentSlide}
+              $active={index === currentSlide}
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
+              aria-current={index === currentSlide ? 'true' : 'false'}
             />
           ))}
         </CarouselIndicators>
