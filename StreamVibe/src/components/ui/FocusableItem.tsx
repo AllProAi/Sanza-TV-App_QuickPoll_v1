@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import type { HTMLAttributes } from 'react';
 import { useFocus } from '../../hooks/useFocus';
 import FocusIndicator from './FocusIndicator';
@@ -26,6 +26,7 @@ interface FocusableItemProps extends HTMLAttributes<HTMLDivElement> {
   indicatorScale?: number;
   indicatorTransitionDuration?: number;
   disabled?: boolean;
+  focusOnMount?: boolean;
 }
 
 const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
@@ -46,6 +47,7 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
       indicatorScale,
       indicatorTransitionDuration,
       disabled = false,
+      focusOnMount = false,
       ...props
     },
     externalRef
@@ -55,6 +57,7 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
       isFocused,
       id: focusId,
       tabIndex,
+      focus,
     } = useFocus({
       id,
       initialFocus,
@@ -62,6 +65,16 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
       onBlur,
       neighbors,
     });
+
+    // Focus on mount if needed
+    useEffect(() => {
+      if (focusOnMount && !disabled) {
+        const timeoutId = setTimeout(() => {
+          focus();
+        }, 100);
+        return () => clearTimeout(timeoutId);
+      }
+    }, [focusOnMount, disabled, focus]);
 
     // Combine external ref with focus ref
     const handleRef = (element: HTMLDivElement | null) => {
@@ -71,6 +84,12 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
       } else if (externalRef) {
         (externalRef as React.MutableRefObject<HTMLDivElement | null>).current = element;
       }
+    };
+
+    // Calculate focus transition based on the status
+    const getFocusTransition = () => {
+      if (disabled) return 'none';
+      return 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease';
     };
 
     return (
@@ -83,10 +102,11 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
         `}
         style={{
           position: 'relative',
-          transform: isFocused ? 'scale(1.05)' : 'scale(1)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          boxShadow: isFocused ? '0 0 20px rgba(63, 133, 244, 0.6)' : 'none',
+          transform: isFocused && !disabled ? 'scale(1.05)' : 'scale(1)',
+          transition: getFocusTransition(),
+          boxShadow: isFocused && !disabled ? '0 0 20px rgba(63, 133, 244, 0.6)' : 'none',
           zIndex: isFocused ? 10 : 'auto',
+          opacity: disabled ? 0.5 : 1,
           ...style,
         }}
         tabIndex={disabled ? -1 : tabIndex}
@@ -97,7 +117,7 @@ const FocusableItem = forwardRef<HTMLDivElement, FocusableItemProps>(
         {...props}
       >
         {children}
-        {!noIndicator && isFocused && (
+        {!noIndicator && isFocused && !disabled && (
           <FocusIndicator
             offset={indicatorOffset}
             scale={indicatorScale}

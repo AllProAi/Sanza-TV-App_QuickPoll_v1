@@ -26,34 +26,64 @@ export const useFocus = ({
 }: UseFocusOptions = {}) => {
   const elementRef = useRef<HTMLElement | null>(null);
   const [isFocused, setIsFocused] = useState(initialFocus);
+  const registeredRef = useRef(false);
+  
   // Keep the ID stable across renders to prevent unnecessary re-registrations
   const idRef = useRef<string>(providedId || `focusable-${Math.random().toString(36).substring(2, 9)}`);
   const id = idRef.current;
   
   const { registerFocusable, unregisterFocusable, setFocus, currentFocus } = useNavigation();
   
-  // Only register once when the element is available
-  // Combined the registration and neighbor updates into a single effect
+  // Register the element and clean up on unmount
   useEffect(() => {
-    if (elementRef.current) {
-      registerFocusable(id, elementRef.current, neighbors);
+    let registrationTimeout: number | null = null;
+    let unregistrationTimeout: number | null = null;
+    
+    // Only register when we have a valid element
+    if (elementRef.current && !registeredRef.current) {
+      // Debounce registration to prevent unnecessary registrations/unregistrations
+      registrationTimeout = window.setTimeout(() => {
+        console.log(`Registering focusable element: ${id}`);
+        registerFocusable(id, elementRef.current!, neighbors);
+        registeredRef.current = true;
+      }, 50); // Short delay to let the DOM stabilize
     }
     
+    // Cleanup function
     return () => {
-      unregisterFocusable(id);
+      // Cancel any pending registration
+      if (registrationTimeout) {
+        clearTimeout(registrationTimeout);
+      }
+      
+      // Cancel any pending unregistration
+      if (unregistrationTimeout) {
+        clearTimeout(unregistrationTimeout);
+      }
+      
+      // Debounce unregistration to prevent flickering during re-renders
+      if (registeredRef.current) {
+        unregistrationTimeout = window.setTimeout(() => {
+          console.log(`Unregistering focusable element: ${id}`);
+          unregisterFocusable(id);
+          registeredRef.current = false;
+        }, 100);
+      }
     };
-  }, [id, neighbors]); // Removed registerFocusable and unregisterFocusable from dependency array
+  }, [id, neighbors, registerFocusable, unregisterFocusable]);
   
   // Handle initialFocus only once when the component mounts
   useEffect(() => {
     if (initialFocus && elementRef.current) {
-      // Use setTimeout to break potential render cycles
-      const timeoutId = setTimeout(() => {
-        setFocus(id);
-      }, 0);
-      
-      return () => clearTimeout(timeoutId);
+      console.log(`Setting initial focus to: ${id}`);
+      // Use RAF + setTimeout to ensure DOM is fully ready
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          setFocus(id);
+        }, 50);
+      });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array, only run on mount
   
   // Handle focus changes from the navigation system
@@ -63,23 +93,35 @@ export const useFocus = ({
     if (isFocusedNow !== isFocused) {
       setIsFocused(isFocusedNow);
       
-      // Use setTimeout to prevent potential cascading effects
-      if (isFocusedNow && onFocus) {
-        setTimeout(() => onFocus(), 0);
-      } else if (!isFocusedNow && isFocused && onBlur) {
-        setTimeout(() => onBlur(), 0);
+      if (isFocusedNow) {
+        // Element gained focus
+        console.log(`Element gained focus: ${id}`);
+        if (onFocus) {
+          // Use requestAnimationFrame to ensure DOM updates complete
+          requestAnimationFrame(() => {
+            onFocus();
+          });
+        }
+      } else if (!isFocusedNow && isFocused) {
+        // Element lost focus
+        console.log(`Element lost focus: ${id}`);
+        if (onBlur) {
+          requestAnimationFrame(() => {
+            onBlur();
+          });
+        }
       }
     }
-  }, [currentFocus, id, isFocused]); // Removed onBlur and onFocus from dependency array
-  
-  // Removed the duplicate effect for neighbors since it's now combined with the registration effect above
+  }, [currentFocus, id, isFocused, onBlur, onFocus]);
   
   // Method to manually set focus to this element
   const focus = useCallback(() => {
-    // Use setTimeout to break potential render cycles
-    setTimeout(() => {
+    console.log(`Manual focus triggered for: ${id}`);
+    if (elementRef.current) {
       setFocus(id);
-    }, 0);
+    } else {
+      console.warn(`Cannot focus element ${id} - no DOM element available`);
+    }
   }, [id, setFocus]);
 
   // Ref callback to set the element ref
@@ -87,11 +129,13 @@ export const useFocus = ({
     if (element !== elementRef.current) {
       elementRef.current = element;
       
+      // If we have a new element and initialFocus is true, set focus
       if (element && initialFocus) {
-        // Use setTimeout to break potential render cycles
+        console.log(`Setting focus on mount to: ${id}`);
+        // Use setTimeout to ensure the element is fully mounted and in the DOM
         setTimeout(() => {
           setFocus(id);
-        }, 0);
+        }, 100);
       }
     }
   }, [id, initialFocus, setFocus]);

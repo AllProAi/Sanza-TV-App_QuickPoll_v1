@@ -205,7 +205,15 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
   }, [focusableElements, currentPath, maxHistoryLength]);
 
   const moveFocus = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
-    if (!currentFocus || !focusableElements[currentFocus]) return;
+    if (!currentFocus || !focusableElements[currentFocus]) {
+      // If no element is focused, try to focus the first available element
+      console.log("No current focus, finding first focusable element");
+      const availableElements = Object.keys(focusableElements);
+      if (availableElements.length > 0) {
+        setFocus(availableElements[0]);
+      }
+      return;
+    }
     
     // If we're in a focus trap, only navigate within it
     if (focusTrap && currentFocus !== focusTrap) {
@@ -217,6 +225,7 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
     const nextFocusId = focusableElements[currentFocus]?.neighbors?.[direction];
     
     if (nextFocusId && focusableElements[nextFocusId]) {
+      console.log(`Using explicit neighbor for ${direction}: ${nextFocusId}`);
       setFocus(nextFocusId);
       return;
     }
@@ -224,7 +233,10 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
     // If no explicit neighbor found, use spatial navigation
     const nearestId = findNearestElement(direction, currentFocus);
     if (nearestId) {
+      console.log(`Found nearest element for ${direction}: ${nearestId}`);
       setFocus(nearestId);
+    } else {
+      console.log(`No element found in direction: ${direction}`);
     }
   }, [currentFocus, focusableElements, focusTrap, findNearestElement, setFocus]);
 
@@ -287,25 +299,34 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
       }
     }
   }, [history, currentPath, setFocus]);
-
+  
   const navigateToLastFocus = useCallback((route: string): boolean => {
     const lastFocus = history.find(item => item.route === route);
-    if (lastFocus && focusableElements[lastFocus.focusId]) {
+    if (lastFocus) {
       // Use a local reference to avoid closure issues
       const elementId = lastFocus.focusId;
       
-      // Use setTimeout to break potential render cycles
+      // Use setTimeout to break potential render cycles and allow for re-registration
       setTimeout(() => {
-        // Use a fresh reference to focusableElements inside the callback
-        if (focusableElements[elementId]) {
+        // Check if element is still registered before setting focus
+        if (document.querySelector(`[data-focusable-id="${elementId}"]`)) {
+          console.log('Restoring focus to:', elementId);
           setFocus(elementId);
+        } else {
+          console.warn('Element no longer exists for focus restoration:', elementId);
+          // Find any valid focusable element if the original one doesn't exist
+          const firstFocusable = Object.keys(focusableElements)[0];
+          if (firstFocusable) {
+            console.log('Falling back to:', firstFocusable);
+            setFocus(firstFocusable);
+          }
         }
-      }, 0);
+      }, 100); // Increased delay to ensure components have mounted
       
       return true;
     }
     return false;
-  }, [history, setFocus]); // Removed focusableElements from dependency array
+  }, [history, setFocus, focusableElements]); // Added focusableElements back to dependency array
 
   // Group management
   const registerGroup = useCallback((groupId: string, elementIds: string[]) => {
@@ -387,94 +408,131 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
   // Handle keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Early return if modifiers are pressed to allow browser shortcuts to work
+      if (e.ctrlKey || e.altKey || e.metaKey) {
+        return;
+      }
+      
+      // DEBUGGING: Add more comprehensive event logging
+      console.log('NavigationContext keydown event detected:', {
+        key: e.key,
+        target: e.target instanceof HTMLElement ? e.target.nodeName : 'unknown',
+        isProcessed: true,
+        currentFocus,
+        activeElement: document.activeElement?.tagName,
+        activeElementId: document.activeElement?.id,
+        timeStamp: new Date().toISOString()
+      });
+      
       // Log key events for debugging
       console.log('Key pressed:', e.key);
       
+      let handled = true;
       switch (e.key) {
         case 'ArrowUp':
           console.log('Moving focus UP');
           moveFocus('up');
-          e.preventDefault();
           break;
+          
         case 'ArrowDown':
           console.log('Moving focus DOWN');
           moveFocus('down');
-          e.preventDefault();
           break;
+          
         case 'ArrowLeft':
           console.log('Moving focus LEFT');
           moveFocus('left');
-          e.preventDefault();
           break;
+          
         case 'ArrowRight':
           console.log('Moving focus RIGHT');
           moveFocus('right');
-          e.preventDefault();
           break;
+          
         case 'Enter': // OK button on remote control
           console.log('Enter/OK pressed on:', currentFocus);
           if (currentFocus && focusableElements[currentFocus]) {
             const element = focusableElements[currentFocus].element;
+            
             // Use setTimeout to break the potential infinite update loop
             setTimeout(() => {
-              // First check if it's a link or button
-              if (element instanceof HTMLAnchorElement) {
-                console.log('Clicking anchor element');
-                if (element.href) {
-                  // Force navigation to the link destination
-                  window.location.href = element.href;
-                } else {
+              try {
+                // First check if it's a link or button
+                if (element instanceof HTMLAnchorElement) {
+                  console.log('Clicking anchor element');
+                  if (element.href) {
+                    // Prevent multiple navigation attempts
+                    window.location.href = element.href;
+                  } else {
+                    element.click();
+                  }
+                } else if (element instanceof HTMLButtonElement || 
+                          element.hasAttribute('role') && element.getAttribute('role') === 'button') {
+                  // If it's a button or has role="button", simulate a click event
+                  console.log('Clicking button element');
                   element.click();
-                }
-              } else if (element instanceof HTMLButtonElement || 
-                         element.hasAttribute('role') && element.getAttribute('role') === 'button') {
-                // If it's a button or has role="button", simulate a click event
-                console.log('Clicking button element');
-                element.click();
-                
-                // If the button has data-href attribute, use it for navigation
-                if (element.dataset.href) {
-                  console.log('Navigating to:', element.dataset.href);
-                  setTimeout(() => {
+                  
+                  // If the button has data-href attribute, use it for navigation
+                  if (element.dataset.href) {
+                    console.log('Navigating to:', element.dataset.href);
                     window.location.href = element.dataset.href!;
-                  }, 50);
-                }
-              } else {
-                // For other elements, just simulate a click
-                console.log('Clicking generic element');
-                element.click();
-                
-                // Also check for data-href on other elements
-                if (element.dataset.href) {
-                  console.log('Navigating to:', element.dataset.href);
-                  setTimeout(() => {
+                  }
+                } else {
+                  // For other elements, just simulate a click
+                  console.log('Clicking generic element');
+                  element.click();
+                  
+                  // Also check for data-href on other elements
+                  if (element.dataset.href) {
+                    console.log('Navigating to:', element.dataset.href);
                     window.location.href = element.dataset.href!;
-                  }, 50);
+                  }
                 }
+              } catch (err) {
+                console.error('Error handling Enter key:', err);
               }
             }, 0);
           } else {
             console.warn('No element focused when Enter was pressed');
+            handled = false;
           }
-          e.preventDefault();
           break;
+          
         case 'Escape': // Back button on remote control
           console.log('Escape/Back pressed');
           goBack();
-          e.preventDefault();
           break;
+          
         case 'Home': // Home button on remote control
           console.log('Home pressed');
           // Navigate to home/main screen
           window.location.href = '/';
-          e.preventDefault();
           break;
+          
+        default:
+          handled = false;
+          break;
+      }
+      
+      if (handled) {
+        e.preventDefault();
+        e.stopPropagation();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [moveFocus, goBack, currentFocus, focusableElements]); // Added currentFocus and focusableElements to dependency array
+    // Append a high-priority event listener to catch all key events
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
+    
+    // DEBUGGING: Add a test to verify event listening is working
+    console.log('Navigation keyboard event handler registered with capture: true');
+    const testEvent = new KeyboardEvent('keydown', { key: 'TEST_EVENT' });
+    window.dispatchEvent(testEvent);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown, { capture: true });
+      console.log('Navigation keyboard event handler removed');
+    };
+  }, [moveFocus, goBack, currentFocus, focusableElements]);
 
   // Set initial focus on mount if not already set
   React.useEffect(() => {
