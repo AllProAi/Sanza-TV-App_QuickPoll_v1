@@ -1,0 +1,125 @@
+.navigation-debugger {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  z-index: 9999;
+  font-family: monospace;
+  font-size: 12px;
+  min-width: 250px;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.navigation-debugger.top-left {
+  top: 10px;
+  left: 10px;
+}
+
+.navigation-debugger.top-right {
+  top: 10px;
+  right: 10px;
+}
+
+.navigation-debugger.bottom-left {
+  bottom: 10px;
+  left: 10px;
+}
+
+.navigation-debugger.bottom-right {
+  bottom: 10px;
+  right: 10px;
+}
+
+.debugger-header {
+  padding: 8px 12px;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.debugger-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.debugger-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.debugger-section {
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.debugger-section h4 {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: normal;
+  background-color: rgba(40, 40, 40, 0.8);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.section-content {
+  padding: 8px 12px;
+  font-size: 11px;
+}
+
+.section-content div {
+  margin-bottom: 4px;
+}
+
+.debugger-footer {
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.debugger-footer button {
+  background-color: rgba(60, 60, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.debugger-footer button:hover {
+  background-color: rgba(80, 80, 80, 0.8);
+}
+
+.key-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  background-color: rgba(60, 60, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  min-width: 25px;
+  text-align: center;
+}
+
+.key.pressed {
+  background-color: rgba(0, 120, 255, 0.8);
+  border-color: rgba(100, 170, 255, 0.5);
+  box-shadow: 0 0 5px rgba(0, 120, 255, 0.5);
+} 

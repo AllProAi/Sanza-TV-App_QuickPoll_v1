@@ -1,0 +1,44 @@
+.focus-indicator {
+  opacity: 1;
+  animation: focusIndicatorAppear 150ms ease-out;
+}
+
+@keyframes focusIndicatorAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Add a subtle pulse animation for the focus indicator */
+.focus-indicator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 10px rgba(63, 133, 244, 0.5);
+  animation: focusIndicatorPulse 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes focusIndicatorPulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+} 
